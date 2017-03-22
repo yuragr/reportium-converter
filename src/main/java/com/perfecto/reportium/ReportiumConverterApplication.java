@@ -10,9 +10,6 @@ import java.io.IOException;
 @SpringBootApplication
 public class ReportiumConverterApplication {
 
-    @Autowired
-    ReportiumConverter reportiumConverter;
-
     public static void main(String[] args) throws IOException {
         ConfigurableApplicationContext context = SpringApplication.run(ReportiumConverterApplication.class, args);
         ReportiumConverter reportiumConverter = context.getBean(ReportiumConverter.class);
