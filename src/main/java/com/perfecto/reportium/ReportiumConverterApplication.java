@@ -20,7 +20,10 @@ public class ReportiumConverterApplication {
     @Bean
     public Factory getFactory() {
         Launcher spoon = new Launcher();
-        spoon.getEnvironment().setNoClasspath(true);
+        Environment environment = spoon.getEnvironment();
+        environment.setNoClasspath(true);
+        environment.setAutoImports(true);
+        environment.setCommentEnabled(true);
         spoon.addInputResource(sourceCodePath);
         spoon.run();
         return spoon.getFactory();
