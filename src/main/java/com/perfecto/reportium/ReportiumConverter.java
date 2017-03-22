@@ -18,14 +18,9 @@ public class ReportiumConverter {
     public void convert() {
         DriverAssignmentStatement driverAssignmentStatement = driverLocator.getDriverVariable();
 
-        CtStatement ctStatementComment = bestUtils.getReportingComment();
         CtStatement ctStatementContext = bestUtils.createReportingContext(driverAssignmentStatement.getDriverVariableName());
         CtStatement ctStatementClient = bestUtils.createReportingClient();
 
-        driverAssignmentStatement.getStatement().insertAfter(ctStatementClient);
-        driverAssignmentStatement.getStatement().insertAfter(ctStatementContext);
-        driverAssignmentStatement.getStatement().insertAfter(ctStatementComment);
-
-        bestUtils.compile();
+        bestUtils.insertStatementsAfter(driverAssignmentStatement, ctStatementContext, ctStatementClient);
     }
 }

@@ -52,12 +52,12 @@ public class BestUtils {
         }
     }
 
-    public void insertStatementsAfter(CtStatement CtStatement,CtStatement... ctNewStatements) {
+    public void insertStatementsAfter(DriverAssignmentStatement assignmentStatement, CtStatement... ctNewStatements) {
         ArrayUtils.reverse(ctNewStatements);
         for (CtStatement ctNewStatement: ctNewStatements) {
-            CtStatement.insertAfter(ctNewStatement);
+            assignmentStatement.getStatement().insertAfter(ctNewStatement);
         }
-        CtStatement.insertAfter(getReportingComment());
+        assignmentStatement.getStatement().insertAfter(getReportingComment());
         compile();
     }
 }
