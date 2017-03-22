@@ -2,9 +2,7 @@ package com.perfecto.reportium;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import spoon.Launcher;
 import spoon.reflect.code.CtComment;
-import spoon.reflect.code.CtLocalVariable;
 import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtType;
 import spoon.reflect.factory.Factory;
@@ -19,14 +17,12 @@ import java.io.File;
 @Component
 public class BestUtils {
 
+    private final static String REPORTIUM_CLIENT_PREFIX = "com.perfecto.reportium.client.";
+    private final static String PERFECTO_EXECUTION_CONTEXT_PREFIX = "com.perfecto.reportium.model.";
     @Autowired
     private Factory factory;
 
-    private final static String REPORTIUM_CLIENT_PREFIX = "com.perfecto.reportium.client.";
-    private final static String PERFECTO_EXECUTION_CONTEXT_PREFIX = "com.perfecto.reportium.model.";
-
-    CtStatement createReportingContext(CtLocalVariable ctLocalVariable) {
-        String varName = ctLocalVariable.getSimpleName();
+    CtStatement createReportingContext(String varName) {
         String contextString = PERFECTO_EXECUTION_CONTEXT_PREFIX + "PerfectoExecutionContext perfectoExecutionContext = new " + PERFECTO_EXECUTION_CONTEXT_PREFIX + "PerfectoExecutionContext.PerfectoExecutionContextBuilder().withWebDriver(" + varName + ").build()";
         return factory.createCodeSnippetStatement(contextString);
     }

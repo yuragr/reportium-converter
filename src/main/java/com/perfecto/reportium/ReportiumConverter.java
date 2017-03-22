@@ -2,7 +2,7 @@ package com.perfecto.reportium;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import spoon.reflect.code.*;
+import spoon.reflect.code.CtStatement;
 
 /**
  * Created by yurig on 22-Mar-17.
@@ -16,16 +16,15 @@ public class ReportiumConverter {
     BestUtils bestUtils;
 
     public void convert() {
-        CtLocalVariable driverVariable = driverLocator.getDriverVariable();
-        System.out.println(driverVariable);
+        DriverAssignmentStatement driverAssignmentStatement = driverLocator.getDriverVariable();
 
         CtStatement ctStatementComment = bestUtils.getReportingComment();
-        CtStatement ctStatementContext = bestUtils.createReportingContext(driverVariable);
+        CtStatement ctStatementContext = bestUtils.createReportingContext(driverAssignmentStatement.getDriverVariableName());
         CtStatement ctStatementClient = bestUtils.createReportingClient();
 
-        driverVariable.insertAfter(ctStatementClient);
-        driverVariable.insertAfter(ctStatementContext);
-        driverVariable.insertAfter(ctStatementComment);
+        driverAssignmentStatement.getStatement().insertAfter(ctStatementClient);
+        driverAssignmentStatement.getStatement().insertAfter(ctStatementContext);
+        driverAssignmentStatement.getStatement().insertAfter(ctStatementComment);
 
         bestUtils.compile();
     }
