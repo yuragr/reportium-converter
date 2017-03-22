@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<reportium-sdk.version>0.0.24</reportium-sdk.version>
 	</properties>
 
 	<dependencies>
@@ -52,6 +53,18 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-support</artifactId>
 			<version>2.48.2</version>
+		</dependency>
+
+		<!-- Reporting SDK -->
+		<dependency>
+			<groupId>com.perfecto.reporting-sdk</groupId>
+			<artifactId>reportium-java</artifactId>
+			<version>${reportium-sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.perfecto.reporting-sdk</groupId>
+			<artifactId>reportium-testng</artifactId>
+			<version>${reportium-sdk.version}</version>
 		</dependency>
 
 	</dependencies>
