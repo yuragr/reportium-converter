@@ -1,16 +1,13 @@
 package com.perfecto.reportium;
 
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import spoon.Launcher;
-import spoon.SpoonAPI;
+import spoon.reflect.code.CtComment;
 import spoon.reflect.code.CtLocalVariable;
 import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtType;
-import spoon.reflect.factory.CodeFactory;
 import spoon.reflect.factory.Factory;
-import spoon.reflect.factory.FactoryImpl;
 import spoon.reflect.visitor.DefaultJavaPrettyPrinter;
 import spoon.support.JavaOutputProcessor;
 
@@ -23,22 +20,24 @@ import java.io.File;
 public class BestUtils {
 
     @Autowired
-    Factory factory;
+    private Factory factory;
+
+    private final static String REPORTIUM_CLIENT_PREFIX = "com.perfecto.reportium.client.";
+    private final static String PERFECTO_EXECUTION_CONTEXT_PREFIX = "com.perfecto.reportium.model.";
 
     CtStatement createReportingContext(CtLocalVariable ctLocalVariable) {
-        Launcher spoon = new Launcher();
-        Factory factory = spoon.getFactory();
-
         String varName = ctLocalVariable.getSimpleName();
-        String contextString = "PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder().withWebDriver(" + varName + ").build()";
+        String contextString = PERFECTO_EXECUTION_CONTEXT_PREFIX + "PerfectoExecutionContext perfectoExecutionContext = new " + PERFECTO_EXECUTION_CONTEXT_PREFIX + "PerfectoExecutionContext.PerfectoExecutionContextBuilder().withWebDriver(" + varName + ").build()";
         return factory.createCodeSnippetStatement(contextString);
     }
 
-    CtStatement createReportingClient() {
-        Launcher spoon = new Launcher();
-        Factory factory = spoon.getFactory();
+    CtStatement getReportingComment() {
+        String comment = "Auto generated code by Perfecto";
+        return factory.createComment(comment, CtComment.CommentType.INLINE);
+    }
 
-        String contextString = "ReportiumClient reportiumClient = new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext)";
+    CtStatement createReportingClient() {
+        String contextString = REPORTIUM_CLIENT_PREFIX + "ReportiumClient reportiumClient = new " + REPORTIUM_CLIENT_PREFIX + "ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext)";
         return factory.createCodeSnippetStatement(contextString);
     }
 
