@@ -24,6 +24,7 @@ public class ReportiumConverterApplication {
         environment.setNoClasspath(true);
         environment.setAutoImports(true);
         environment.setCommentEnabled(true);
+        environment.setPreserveLineNumbers(true);
         spoon.addInputResource(sourceCodePath);
         spoon.run();
         return spoon.getFactory();
