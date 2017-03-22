@@ -26,12 +26,10 @@ public class DriverLocator {
     @Autowired
     private BestUtils bestUtils;
 
-    public CtLocalVariable getDriverVariable(String sourceCodePath) {
-        Launcher spoon = new Launcher();
-        spoon.getEnvironment().setNoClasspath(true);
-        spoon.addInputResource(sourceCodePath);
-        spoon.run();
-        Factory factory = spoon.getFactory();
+    @Autowired
+    Factory factory;
+
+    public CtLocalVariable getDriverVariable() {
 
         CtLocalVariable driverLocalVariable = null;
 
@@ -50,7 +48,6 @@ public class DriverLocator {
                             .findFirst()
                             .orElse(null);
                     if (driverLocalVariable != null){
-                        driverLocalVariable.insertAfter(bestUtils.createReportingContext(driverLocalVariable));
                         break;
                     }
                 }
