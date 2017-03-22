@@ -1,6 +1,7 @@
 package com.perfecto.reportium;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import spoon.Launcher;
 import spoon.reflect.code.CtBlock;
@@ -12,6 +13,7 @@ import spoon.reflect.declaration.CtType;
 import spoon.reflect.factory.Factory;
 import spoon.reflect.visitor.filter.TypeFilter;
 
+import java.io.*;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +22,10 @@ import java.util.Set;
  */
 @Component
 public class DriverLocator {
+
+    @Autowired
+    private BestUtils bestUtils;
+
     public CtLocalVariable getDriverVariable(String sourceCodePath) {
         Launcher spoon = new Launcher();
         spoon.getEnvironment().setNoClasspath(true);
@@ -43,8 +49,10 @@ public class DriverLocator {
                             .filter(variable -> RemoteWebDriver.class.getSimpleName().equals(variable.getType().getSimpleName()))
                             .findFirst()
                             .orElse(null);
-                    if (driverLocalVariable != null)
+                    if (driverLocalVariable != null){
+                        driverLocalVariable.insertAfter(bestUtils.createReportingContext(driverLocalVariable));
                         break;
+                    }
                 }
                 if (driverLocalVariable != null)
                     break;
