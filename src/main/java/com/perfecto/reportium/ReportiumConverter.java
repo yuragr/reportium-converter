@@ -19,14 +19,9 @@ public class ReportiumConverter {
         CtLocalVariable driverVariable = driverLocator.getDriverVariable();
         System.out.println(driverVariable);
 
-        CtStatement ctStatementComment = bestUtils.getReportingComment();
         CtStatement ctStatementContext = bestUtils.createReportingContext(driverVariable);
         CtStatement ctStatementClient = bestUtils.createReportingClient();
 
-        driverVariable.insertAfter(ctStatementClient);
-        driverVariable.insertAfter(ctStatementContext);
-        driverVariable.insertAfter(ctStatementComment);
-
-        bestUtils.compile();
+        bestUtils.insertStatementsAfter(driverVariable, ctStatementContext, ctStatementClient);
     }
 }
